@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Test</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        .question-form {
+            margin: 1em 0;
+            padding: 1em;
+            border: 2px solid #ccc;
+        }
+        .delete-button {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Test</h1>
+
+    <!-- Test Edit -->
+    <form action="#" th:action="@{./edit}" th:object="${test}" method="post">
+        <label for="titel">Titel:</label>
+        <input type="text" id="titel" th:field="*{titel}" /><br />
+
+        <label for="startZeitpunkt">Start Time:</label>
+        <input type="datetime-local" id="startZeitpunkt" th:field="*{startZeitpunkt}" /><br />
+
+        <label for="endZeitpunkt">End Time:</label>
+        <input type="datetime-local" id="endZeitpunkt" th:field="*{endZeitpunkt}" /><br />
+
+        <label for="ergebnisVeroeffentlichungsZeitpunkt">Result Publication Time:</label>
+        <input type="datetime-local" id="ergebnisVeroeffentlichungsZeitpunkt"
+               th:field="*{ergebnisVeroeffentlichungsZeitpunkt}" /><br />
+
+        <button type="submit">Save Test</button>
+    </form>
+
+    <!-- Test Delete -->
+    <form th:action="@{./delete}" method="post" style="margin-top: 10px;">
+        <button type="submit" class="delete-button"
+                onclick="return confirm('Are you sure you want to delete this test?')">
+            Delete Test
+        </button>
+    </form>
+
+    <!-- Questions List -->
+    <h2>Questions</h2>
+    <div th:each="question,iterStat : ${questions}" class="question-form">
+        <div>
+            <strong>Type:</strong> <span th:text="${question.typ}"></span><br/>
+            <strong>Question:</strong> <span th:text="${question.fragestellung}"></span><br/>
+            <strong>Max Points:</strong> <span th:text="${question.maximalePunktzahl}"></span>
+        </div>
+
+        <!-- Multiple Choice Stuff -->
+        <div th:if="${question.typ.name() == 'MultipleChoice'}" >
+            <h4>Answer Options:</h4>
+            <div th:each="item : ${mcItems[iterStat.index]}">
+                <input type="checkbox" th:checked="${item.korrekt}" disabled/>
+                <span th:text="${item.text}"></span>
+            </div>
+            <div class="add-mc-form">
+                <h3>Add New Item</h3>
+                <form th:action="@{./questions/{questionId}/addMcItem(questionId=${question.id})}" th:object="${newMcItem}" method="post">
+                    <label>Text:</label>
+                    <textarea th:field="*{text}"></textarea><br/>
+
+                    <label>Korrekt:</label>
+                    <input type="checkbox" th:field="*{korrekt}"/><br/>
+
+                    <button type="submit">Add Item</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Delete Question Button -->
+        <form th:action="@{./questions/{questionId}/delete(questionId=${question.id})}"
+              method="post">
+            <button type="submit" class="delete-button"
+                    onclick="return confirm('Delete this question?')">Delete Question</button>
+        </form>
+    </div>
+
+    <!-- Add New Question Form -->
+    <div class="question-form">
+        <h3>Add New Question</h3>
+        <form th:action="@{./questions/new}" th:object="${newQuestion}" method="post">
+            <select th:field="*{typ}">
+                <option value="MultipleChoice">Multiple Choice</option>
+                <option value="Freitext">Free Text</option>
+            </select><br/>
+
+            <label>Question Text:</label>
+            <textarea th:field="*{fragestellung}"></textarea><br/>
+
+            <label>Max Points:</label>
+            <input type="number" th:field="*{maximalePunktzahl}"/><br/>
+
+            <button type="submit">Add Question</button>
+        </form>
+    </div>
+
+    <a href="../../tests">Back to Test List</a>
+</body>
+</html>

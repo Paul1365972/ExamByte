@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: exambyte
+  config:
+    import:
+      - file:${user.dir}\.env.properties
+  datasource:
+    url: jdbc:postgresql://localhost:5432/exambyte
+    username: exambyte
+    password: iamgroot
+  flyway:
+    enabled: true
+  thymeleaf:
+    cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GH_OAUTH_CLIENT_ID}
+            client-secret: ${GH_OAUTH_CLIENT_SECRET}
+            scope:
+              - read:user
+              - user:email
+
+exambyte:
+  organizers:
+    - Paul1365972
+  correctors:
+
+logging:
+  level:
+    web: DEBUG
+    org.springframework.security: DEBUG

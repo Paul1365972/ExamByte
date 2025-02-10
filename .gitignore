@@ -1,0 +1,9 @@
+/propra_files/
+/.env.properties
+
+/bin/
+/build/
+.gradle
+!gradle/wrapper/gradle-wrapper.jar
+
+/.vscode/
