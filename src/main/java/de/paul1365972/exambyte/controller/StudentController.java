@@ -23,8 +23,12 @@ public class StudentController {
 
     @GetMapping("/tests")
     public String zeigeVerfuegbareTests(Model model) {
-        List<Test> verfuegbareTests = testRepository.findLaufendeTests(LocalDateTime.now());
-        model.addAttribute("tests", verfuegbareTests);
+        List<Test> laufendeTests = testRepository.findLaufendeTests(LocalDateTime.now());
+        List<Test> abgelaufeneTests = testRepository.findAbelaufeneTests(LocalDateTime.now());
+        List<Test> bewerteteTests = testRepository.findBewerteteTests(LocalDateTime.now());
+        model.addAttribute("tests1", laufendeTests);
+        model.addAttribute("tests2", abgelaufeneTests);
+        model.addAttribute("tests3", bewerteteTests);
         return "student/test_liste";
     }
 

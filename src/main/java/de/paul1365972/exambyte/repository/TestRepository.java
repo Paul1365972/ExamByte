@@ -10,6 +10,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface TestRepository extends CrudRepository<Test, Long> {
-    @Query("SELECT * FROM tests WHERE start_zeitpunkt <= :now")
+    @Query("SELECT * FROM tests WHERE start_zeitpunkt <= :now AND end_zeitpunkt > :now")
     List<Test> findLaufendeTests(@Param("now") LocalDateTime now);
+
+    @Query("SELECT * FROM tests WHERE end_zeitpunkt <= :now AND ergebnis_veroeffentlichungs_zeitpunkt > :now")
+    List<Test> findAbelaufeneTests(@Param("now") LocalDateTime now);
+
+    @Query("SELECT * FROM tests WHERE ergebnis_veroeffentlichungs_zeitpunkt <= :now")
+    List<Test> findBewerteteTests(@Param("now") LocalDateTime now);
 }

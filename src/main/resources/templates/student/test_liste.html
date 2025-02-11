@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="test : ${tests}">
+            <tr th:each="test : ${tests1}">
                 <td th:text="${test.titel}"></td>
                 <td th:text="${#temporals.format(test.startZeitpunkt, 'dd.MM.yyyy HH:mm')}"></td>
                 <td th:text="${#temporals.format(test.endZeitpunkt, 'dd.MM.yyyy HH:mm')}"></td>
@@ -25,7 +25,23 @@
                     <a th:href="@{'/student/tests/' + ${test.id}}">Test starten</a>
                 </td>
             </tr>
-            <tr th:if="${tests.isEmpty()}">
+            <tr th:each="test : ${tests2}">
+                <td th:text="${test.titel}"></td>
+                <td th:text="${#temporals.format(test.startZeitpunkt, 'dd.MM.yyyy HH:mm')}"></td>
+                <td th:text="${#temporals.format(test.endZeitpunkt, 'dd.MM.yyyy HH:mm')}"></td>
+                <td>
+                    <a th:href="@{'/student/tests/' + ${test.id}}">Antworten reviewen</a>
+                </td>
+            </tr>
+            <tr th:each="test : ${tests3}">
+                <td th:text="${test.titel}"></td>
+                <td th:text="${#temporals.format(test.startZeitpunkt, 'dd.MM.yyyy HH:mm')}"></td>
+                <td th:text="${#temporals.format(test.endZeitpunkt, 'dd.MM.yyyy HH:mm')}"></td>
+                <td>
+                    <a th:href="@{'/student/tests/' + ${test.id}}">Feedback angucken</a>
+                </td>
+            </tr>
+            <tr th:if="${tests1.isEmpty() && tests2.isEmpty() && tests3.isEmpty()}">
                 <td colspan="4">Keine Tests verfügbar :(</td>
             </tr>
         </tbody>
