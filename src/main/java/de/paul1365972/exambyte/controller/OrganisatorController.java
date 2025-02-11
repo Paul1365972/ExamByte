@@ -63,7 +63,7 @@ public class OrganisatorController {
 	@PostMapping("/tests/{id}/edit")
 	public String updateTest(@PathVariable Long id, @ModelAttribute("test") Test test) {
 		testRepository.save(test);
-		return "redirect:./tests";
+		return "redirect:../../tests";
 	}
 
 	@GetMapping("/tests/new")
