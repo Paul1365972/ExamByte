@@ -6,6 +6,7 @@ plugins {
 	id 'checkstyle'
 	id 'com.github.spotbugs' version '6.0.27'
 	id 'com.diffplug.spotless' version '7.0.2'
+	id 'jacoco'
 }
 
 group = 'de.paul1365972'
@@ -75,4 +76,17 @@ spotless {
 	groovyGradle {
 		greclipse()
 	}
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = false
+        csv.required = false
+        html.required = true
+    }
+}
+
+test {
+    finalizedBy jacocoTestReport
 }
