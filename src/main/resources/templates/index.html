@@ -3,6 +3,16 @@
 <head>
     <title>ExamByte</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        .hidden {
+            display: none;
+        }
+        .menu-toggle {
+            cursor: pointer;
+            color: red;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <h1>Welcome to ExamByte!</h1>
@@ -10,11 +20,45 @@
     <div th:if="${isLoggedIn}">
         <p>Logged in as: <span th:text="${username}"></span></p>
         <p>Role: <span th:text="${usertype}"></span></p>
+
+        <div th:switch="${usertype}">
+            <ul th:case="'STUDENT'">
+                <li><a href="/student/tests">Verfügbare Tests</a></li>
+            </ul>
+            <ul th:case="'KORREKTOR'">
+                <li><a href="/korrektor/tests">Aufgaben zur Korrektur (TODO)</a></li>
+            </ul>
+            <ul th:case="'ORGANIZER'">
+                <li><a href="/organisator/tests">Testverwaltung</a></li>
+            </ul>
+            <ul th:case="*">
+                <li><a href="/">Startseite</a></li>
+            </ul>
+        </div>
+
         <a href="/logout">Logout</a>
+
+        <div id="additionalLinks" class="hidden">
+            <h4>Weitere Links:</h4>
+            <ul>
+                <li><a href="/student/tests">Verfügbare Tests</a></li>
+                <li><a href="/korrektor/tests">Aufgaben zur Korrektur (TODO)</a></li>
+                <li><a href="/organisator/tests">Testverwaltung</a></li>
+            </ul>
+        </div>
+
+        <div class="menu-toggle" onclick="toggleMenu()">Show/Hide Dev Links</div>
+
     </div>
     <div th:unless="${isLoggedIn}">
         <p>Please login with GitHub.</p>
         <a href="/oauth2/authorization/github">Login with GitHub</a>
     </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("additionalLinks").classList.toggle("hidden");
+        }
+    </script>
 </body>
 </html>
