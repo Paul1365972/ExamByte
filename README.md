@@ -1,6 +1,6 @@
 # ExamByte
 
-## Usefull commands
+## Useful commands
 
 `gradlw bootRun`
 
