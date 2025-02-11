@@ -79,14 +79,14 @@ spotless {
 }
 
 jacocoTestReport {
-    dependsOn test
-    reports {
-        xml.required = false
-        csv.required = false
-        html.required = true
-    }
+	dependsOn test
+	reports {
+		xml.required = false
+		csv.required = false
+		html.required = true
+	}
 }
 
 test {
-    finalizedBy jacocoTestReport
+	finalizedBy jacocoTestReport
 }
